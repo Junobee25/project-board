@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 @Table(indexes = {
         @Index(columnList = "description"),
         @Index(columnList = "createdAt"),
@@ -27,19 +27,23 @@ public class ArticleComment extends AuditingFields {
     @ManyToOne(optional = false)
     private Article article; // 게시글 (ID)
     @Setter
+    @ManyToOne(optional = false)
+    private UserAccount userAccount;
+    @Setter
     @Column(nullable = false, length = 500)
     private String description; // 본문
 
     protected ArticleComment() {
     }
 
-    private ArticleComment(Article article, String description) {
+    private ArticleComment(Article article, UserAccount userAccount, String description) {
+        this.userAccount = userAccount;
         this.article = article;
         this.description = description;
     }
 
-    public static ArticleComment of(Article article, String description) {
-        return new ArticleComment(article, description);
+    public static ArticleComment of(Article article, UserAccount userAccount, String description) {
+        return new ArticleComment(article, userAccount, description);
     }
 
     @Override
