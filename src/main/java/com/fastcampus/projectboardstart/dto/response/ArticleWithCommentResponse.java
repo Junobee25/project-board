@@ -1,4 +1,4 @@
-package com.fastcampus.projectboardstart.response;
+package com.fastcampus.projectboardstart.dto.response;
 
 import com.fastcampus.projectboardstart.dto.ArticleWithCommentsDto;
 
