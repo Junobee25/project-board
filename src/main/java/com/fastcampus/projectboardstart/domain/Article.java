@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 @Table(indexes = {
         @Index(columnList = "title"),
         @Index(columnList = "hashtag"),
@@ -25,6 +25,9 @@ public class Article extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
+    @ManyToOne(optional = false)
+    private UserAccount userAccount; // 유저 정보 ID
 
     @Setter
     @Column(nullable = false)
@@ -36,7 +39,7 @@ public class Article extends AuditingFields {
     @Setter
     private String hashtag; // 해시 태그
 
-    @OrderBy("id")
+    @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     @ToString.Exclude
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
@@ -45,14 +48,15 @@ public class Article extends AuditingFields {
 
     }
 
-    private Article(String title, String description, String hashtag) {
+    private Article(UserAccount userAccount, String title, String description, String hashtag) {
+        this.userAccount = userAccount;
         this.title = title;
         this.description = description;
         this.hashtag = hashtag;
     }
 
-    public static Article of(String title, String description, String hashtag) {
-        return new Article(title, description, hashtag);
+    public static Article of(UserAccount userAccount, String title, String description, String hashtag) {
+        return new Article(userAccount, title, description, hashtag);
     }
 
     @Override

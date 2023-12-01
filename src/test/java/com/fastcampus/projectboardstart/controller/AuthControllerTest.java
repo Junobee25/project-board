@@ -25,7 +25,6 @@ public class AuthControllerTest {
         this.mvc = mvc;
     }
 
-    @Disabled
     @DisplayName("[view] [GET] 로그인 페이지 - 정상 호출")
     @Test
     public void givenNoting_whenTryingToLogIn_thenReturnsLogInView() throws Exception {
