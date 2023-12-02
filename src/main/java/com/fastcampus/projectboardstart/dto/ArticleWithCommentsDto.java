@@ -12,7 +12,7 @@ public record ArticleWithCommentsDto (
         UserAccountDto userAccountDto,
         Set<ArticleCommentDto> articleCommentDtos,
         String title,
-        String content,
+        String description,
         String hashtag,
         LocalDateTime createdAt,
         String createdBy,
