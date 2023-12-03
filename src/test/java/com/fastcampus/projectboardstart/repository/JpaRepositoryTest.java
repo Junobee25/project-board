@@ -43,7 +43,7 @@ class JpaRepositoryTest {
         // then
         assertThat(articles)
                 .isNotNull()
-                .hasSize(123);
+                .hasSize(100);
     }
 
     @DisplayName("insert 테스트")
@@ -65,7 +65,7 @@ class JpaRepositoryTest {
     @Test
     void givenTestData_whenUpdating_thenWorksFine() {
         // given
-        Article article = articleRepository.findById(123L).orElseThrow();
+        Article article = articleRepository.findById(100L).orElseThrow();
         String updatedHashtag = "#springboot";
         article.setHashtag(updatedHashtag);
 
@@ -80,7 +80,7 @@ class JpaRepositoryTest {
     @Test
     void givenTestData_whenDeleting_thenWorksFine() {
         // given
-        Article article = articleRepository.findById(123L).orElseThrow();
+        Article article = articleRepository.findById(100L).orElseThrow();
         long previousArticleCount = articleRepository.count();
         long previousArticleXCommentCount = articleCommentRepository.count();
         int deletedCommentsSize = article.getArticleComments().size();
