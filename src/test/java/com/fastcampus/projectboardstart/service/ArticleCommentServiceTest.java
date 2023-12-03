@@ -49,7 +49,7 @@ class ArticleCommentServiceTest {
         // then
         assertThat(actual)
                 .hasSize(1)
-                .first().hasFieldOrPropertyWithValue("content", expected.getDescription());
+                .first().hasFieldOrPropertyWithValue("description", expected.getDescription());
         then(articleCommentRepository).should().findByArticle_Id(articleId);
     }
 
@@ -133,12 +133,12 @@ class ArticleCommentServiceTest {
         then(articleCommentRepository).should().deleteById(articleCommentId);
     }
 
-    private ArticleCommentDto createArticleCommentDto(String content) {
+    private ArticleCommentDto createArticleCommentDto(String description) {
         return ArticleCommentDto.of(
                 1L,
                 1L,
                 createUserAccountDto(),
-                content,
+                description,
                 LocalDateTime.now(),
                 "uno",
                 LocalDateTime.now(),
