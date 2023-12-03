@@ -41,12 +41,11 @@ class ArticleCommentServiceTest {
     void givenArticleId_whenSearchingArticleComments_thenReturnsArticleComments() {
         // given
         Long articleId = 1L;
-        ArticleComment expected = createArticleComment("content");
+        ArticleComment expected = createArticleComment("description");
         given(articleCommentRepository.findByArticle_Id(articleId)).willReturn(List.of(expected));
 
         // when
         List<ArticleCommentDto> actual = sut.searchArticleComments(articleId);
-
         // then
         assertThat(actual)
                 .hasSize(1)
@@ -162,11 +161,11 @@ class ArticleCommentServiceTest {
         );
     }
 
-    private ArticleComment createArticleComment(String content) {
+    private ArticleComment createArticleComment(String description) {
         return ArticleComment.of(
-                Article.of(createUserAccount(), "title", "content", "hashtag"),
+                Article.of(createUserAccount(), "title", "description", "hashtag"),
                 createUserAccount(),
-                content
+                description
         );
     }
 
