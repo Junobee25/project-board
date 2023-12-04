@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public record ArticleWithCommentsResponse(
         Long id,
         String title,
-        String content,
+        String description,
         String hashtag,
         LocalDateTime createdAt,
         String email,
@@ -19,8 +19,8 @@ public record ArticleWithCommentsResponse(
         Set<ArticleCommentResponse> articleCommentResponse
 ) implements Serializable {
 
-    public static ArticleWithCommentsResponse of(Long id, String title, String content, String hashtag, LocalDateTime createdAt, String email, String nickname, Set<ArticleCommentResponse> articleCommentResponses) {
-        return new ArticleWithCommentsResponse(id, title, content, hashtag, createdAt, email, nickname, articleCommentResponses);
+    public static ArticleWithCommentsResponse of(Long id, String title, String description, String hashtag, LocalDateTime createdAt, String email, String nickname, Set<ArticleCommentResponse> articleCommentResponses) {
+        return new ArticleWithCommentsResponse(id, title, description, hashtag, createdAt, email, nickname, articleCommentResponses);
     }
 
     public static ArticleWithCommentsResponse from(ArticleWithCommentsDto dto) {

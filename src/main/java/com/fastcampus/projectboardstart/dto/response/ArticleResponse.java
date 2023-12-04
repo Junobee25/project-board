@@ -8,15 +8,15 @@ import java.time.LocalDateTime;
 public record ArticleResponse (
         Long id,
         String title,
-        String content,
+        String description,
         String hashtag,
         LocalDateTime createdAt,
         String email,
         String nickname
 ) implements Serializable {
 
-    public static ArticleResponse of(Long id, String title, String content, String hashtag, LocalDateTime createdAt, String email, String nickname) {
-        return new ArticleResponse(id, title, content, hashtag, createdAt, email, nickname);
+    public static ArticleResponse of(Long id, String title, String description, String hashtag, LocalDateTime createdAt, String email, String nickname) {
+        return new ArticleResponse(id, title, description, hashtag, createdAt, email, nickname);
     }
 
     public static ArticleResponse from(ArticleDto dto) {
