@@ -76,9 +76,9 @@ class ArticleControllerTest {
 
         // when & then
         mvc.perform(
-                get("/articles")
-                        .queryParam("searchType", searchType.name())
-                        .queryParam("searchValue",searchValue)
+                        get("/articles")
+                                .queryParam("searchType", searchType.name())
+                                .queryParam("searchValue", searchValue)
                 )
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
@@ -148,17 +148,56 @@ class ArticleControllerTest {
                 .andExpect(view().name("articles/search"));
     }
 
-    @Disabled("구현 중")
     @DisplayName("[view] [GET] 게시글 해시태그 전용 페이지 - 정상 호출")
     @Test
-    public void given_whenRequestingArticleHashTagSearchView_thenReturnsArticleHashTagSearchView() throws Exception {
+    public void givenNoting_whenRequestingArticleSearchHashTagView_thenReturnsArticleSearchHashTagView() throws Exception {
         // given
+        List<String> hashtags = List.of("#java", "#spring", "boot");
+        given(articleService.searchArticlesViaHashtag(eq(null), any(Pageable.class))).willReturn(Page.empty());
+        given(articleService.getHashtags()).willReturn(hashtags);
+        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(1, 2, 3, 4, 5));
 
         // when & then
         mvc.perform(get("/articles/search-hashtag"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(view().name("articles/hashtag"));
+                .andExpect(view().name("articles/search-hashtag"))
+                .andExpect(model().attribute("articles", Page.empty()))
+                .andExpect(model().attribute("hashtag",hashtags))
+                .andExpect(model().attributeExists("paginationBarNumbers"))
+                .andExpect(model().attribute("searchTypes", SearchType.HASHTAG));
+
+        then(articleService).should().searchArticlesViaHashtag(eq(null), any(Pageable.class));
+        then(articleService).should().getHashtags();
+        then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
+
+    }
+
+    @DisplayName("[view] [GET] 게시글 해시태그 전용 페이지 - 정상 , 해시태그 입력")
+    @Test
+    public void givenHashtag_whenRequestingArticleSearchHashTagView_thenReturnsArticleSearchHashTagView() throws Exception {
+        // given
+        String hashtag = "java";
+        List<String> hashtags = List.of("#java", "#spring", "boot");
+        given(articleService.searchArticlesViaHashtag(eq(hashtag), any(Pageable.class))).willReturn(Page.empty());
+        given(articleService.getHashtags()).willReturn(hashtags);
+        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(1, 2, 3, 4, 5));
+
+        // when & then
+        mvc.perform(get("/articles/search-hashtag")
+                        .queryParam("searchValue", hashtag))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+                .andExpect(view().name("articles/search-hashtag"))
+                .andExpect(model().attribute("articles", Page.empty()))
+                .andExpect(model().attribute("hashtag", hashtags))
+                .andExpect(model().attributeExists("paginationBarNumbers"))
+                .andExpect(model().attribute("searchTypes", SearchType.HASHTAG));
+
+        then(articleService).should().searchArticlesViaHashtag(eq(hashtag), any(Pageable.class));
+        then(articleService).should().getHashtags();
+        then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
+
     }
 
     private ArticleWithCommentsDto createArticleWithCommentsDto() {
