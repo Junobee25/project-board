@@ -36,7 +36,8 @@ class ArticleCommentServiceTest {
     private ArticleRepository articleRepository;
     @Mock
     private ArticleCommentRepository articleCommentRepository;
-    @Mock private UserAccountRepository userAccountRepository;
+    @Mock
+    private UserAccountRepository userAccountRepository;
 
 
     @DisplayName("게시글 ID로 조회하면, 해당하는 댓글 리스트를 반환한다.")
@@ -130,13 +131,14 @@ class ArticleCommentServiceTest {
     void givenArticleCommentId_whenDeletingArticleComment_thenDeletesArticleComment() {
         // Given
         Long articleCommentId = 1L;
-        willDoNothing().given(articleCommentRepository).deleteById(articleCommentId);
+        String userId = "uno";
+        willDoNothing().given(articleCommentRepository).deleteByIdAndUserAccount_UserId(articleCommentId, userId);
 
         // When
-        sut.deleteArticleComment(articleCommentId);
+        sut.deleteArticleComment(articleCommentId, userId);
 
         // Then
-        then(articleCommentRepository).should().deleteById(articleCommentId);
+        then(articleCommentRepository).should().deleteByIdAndUserAccount_UserId(articleCommentId, userId);
     }
 
     private ArticleCommentDto createArticleCommentDto(String description) {

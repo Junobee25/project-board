@@ -5,16 +5,17 @@ import com.fastcampus.projectboardstart.dto.ArticleCommentDto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public record ArticleCommentResponse (
+public record ArticleCommentResponse(
         Long id,
         String description,
         LocalDateTime createdAt,
         String email,
-        String nickname
+        String nickname,
+        String userId
 ) implements Serializable {
 
-    public static ArticleCommentResponse of(Long id, String description, LocalDateTime createdAt, String email, String nickname) {
-        return new ArticleCommentResponse(id, description, createdAt, email, nickname);
+    public static ArticleCommentResponse of(Long id, String description, LocalDateTime createdAt, String email, String nickname, String userId) {
+        return new ArticleCommentResponse(id, description, createdAt, email, nickname, userId);
     }
 
     public static ArticleCommentResponse from(ArticleCommentDto dto) {
@@ -28,7 +29,8 @@ public record ArticleCommentResponse (
                 dto.description(),
                 dto.createdAt(),
                 dto.userAccountDto().email(),
-                nickname
+                nickname,
+                dto.userAccountDto().userId()
         );
     }
 
