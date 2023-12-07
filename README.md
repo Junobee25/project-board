@@ -34,7 +34,7 @@ Spring Boot
 
 ## 데모 페이지
 
-https://git.heroku.com/project-board-junoh.git
+https://project-board-junoh-de725ed1cde9.herokuapp.com/
 
 ## 질문, 건의
 
