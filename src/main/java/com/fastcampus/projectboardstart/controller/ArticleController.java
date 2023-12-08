@@ -2,7 +2,6 @@ package com.fastcampus.projectboardstart.controller;
 
 import com.fastcampus.projectboardstart.domain.constant.FormStatus;
 import com.fastcampus.projectboardstart.domain.constant.SearchType;
-import com.fastcampus.projectboardstart.dto.UserAccountDto;
 import com.fastcampus.projectboardstart.dto.request.ArticleRequest;
 import com.fastcampus.projectboardstart.dto.response.ArticleResponse;
 import com.fastcampus.projectboardstart.dto.response.ArticleWithCommentsResponse;
