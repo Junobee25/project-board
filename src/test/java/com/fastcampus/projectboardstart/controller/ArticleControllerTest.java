@@ -43,7 +43,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import({TestSecurityConfig.class, FormDataEncoder.class})
 @WebMvcTest(ArticleController.class)
 class ArticleControllerTest {
-
     private final MockMvc mvc;
     private final FormDataEncoder formDataEncoder;
 
@@ -52,7 +51,7 @@ class ArticleControllerTest {
     @MockBean
     private PaginationService paginationService;
 
-    public ArticleControllerTest(
+    ArticleControllerTest(
             @Autowired MockMvc mvc,
             @Autowired FormDataEncoder formDataEncoder
     ) {
@@ -61,7 +60,7 @@ class ArticleControllerTest {
     }
     @DisplayName("[view] [GET] 게시글 리스트 (게시판) 페이지 - 정상 호출")
     @Test
-    public void given_whenRequestingArticlesView_thenReturnsArticlesView() throws Exception {
+    void given_whenRequestingArticlesView_thenReturnsArticlesView() throws Exception {
         // given
         given(articleService.searchArticles(eq(null), eq(null), any(Pageable.class))).willReturn(Page.empty());
         given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(0, 1, 2, 3, 4));
@@ -79,7 +78,7 @@ class ArticleControllerTest {
 
     @DisplayName("[view] [GET] 게시글 리스트 (게시판) 페이지 - 검색어와 함께 호출")
     @Test
-    public void givenSearchKeyword_whenSearchingArticlesView_thenReturnsArticlesView() throws Exception {
+    void givenSearchKeyword_whenSearchingArticlesView_thenReturnsArticlesView() throws Exception {
         // given
         SearchType searchType = SearchType.TITLE;
         String searchValue = "title";
@@ -147,7 +146,7 @@ class ArticleControllerTest {
     @WithMockUser
     @DisplayName("[view][GET] 게시글 페이지 - 정상 호출, 인증된 사용자")
     @Test
-    public void givenNothing_whenRequestingArticleView_thenReturnsArticleView() throws Exception {
+    void givenNothing_whenRequestingArticleView_thenReturnsArticleView() throws Exception {
         // Given
         Long articleId = 1L;
         given(articleService.getArticleWithComments(articleId)).willReturn(createArticleWithCommentsDto());
@@ -165,7 +164,7 @@ class ArticleControllerTest {
     @Disabled("구현 중")
     @DisplayName("[view] [GET] 게시글 검색 전용 페이지 - 정상 호출")
     @Test
-    public void given_whenRequestingArticleSearchView_thenReturnsArticleSearchView() throws Exception {
+    void given_whenRequestingArticleSearchView_thenReturnsArticleSearchView() throws Exception {
         // given
 
         // when & then
@@ -177,7 +176,7 @@ class ArticleControllerTest {
 
     @DisplayName("[view] [GET] 게시글 해시태그 전용 페이지 - 정상 호출")
     @Test
-    public void givenNoting_whenRequestingArticleSearchHashTagView_thenReturnsArticleSearchHashTagView() throws Exception {
+    void givenNoting_whenRequestingArticleSearchHashTagView_thenReturnsArticleSearchHashTagView() throws Exception {
         // given
         List<String> hashtags = List.of("#java", "#spring", "boot");
         given(articleService.searchArticlesViaHashtag(eq(null), any(Pageable.class))).willReturn(Page.empty());
@@ -202,7 +201,7 @@ class ArticleControllerTest {
 
     @DisplayName("[view] [GET] 게시글 해시태그 전용 페이지 - 정상 , 해시태그 입력")
     @Test
-    public void givenHashtag_whenRequestingArticleSearchHashTagView_thenReturnsArticleSearchHashTagView() throws Exception {
+    void givenHashtag_whenRequestingArticleSearchHashTagView_thenReturnsArticleSearchHashTagView() throws Exception {
         // given
         String hashtag = "java";
         List<String> hashtags = List.of("#java", "#spring", "boot");
@@ -275,7 +274,6 @@ class ArticleControllerTest {
         then(articleService).shouldHaveNoInteractions();
     }
 
-
     @WithMockUser
     @DisplayName("[view][GET] 게시글 수정 페이지 - 정상 호출, 인증된 사용자")
     @Test
@@ -337,7 +335,6 @@ class ArticleControllerTest {
                 .andExpect(redirectedUrl("/articles"));
         then(articleService).should().deleteArticle(articleId, userId);
     }
-
 
     private ArticleDto createArticleDto() {
         return ArticleDto.of(
