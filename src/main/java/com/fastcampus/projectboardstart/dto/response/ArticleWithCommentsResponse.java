@@ -1,6 +1,7 @@
 package com.fastcampus.projectboardstart.dto.response;
 
 import com.fastcampus.projectboardstart.dto.ArticleWithCommentsDto;
+import com.fastcampus.projectboardstart.dto.HashtagDto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ public record ArticleWithCommentsResponse(
         Long id,
         String title,
         String description,
-        String hashtag,
+        Set<String> hashtag,
         LocalDateTime createdAt,
         String email,
         String nickname,
@@ -20,7 +21,7 @@ public record ArticleWithCommentsResponse(
         Set<ArticleCommentResponse> articleCommentResponse
 ) implements Serializable {
 
-    public static ArticleWithCommentsResponse of(Long id, String title, String description, String hashtag, LocalDateTime createdAt, String email, String nickname, String userId, Set<ArticleCommentResponse> articleCommentResponses) {
+    public static ArticleWithCommentsResponse of(Long id, String title, String description, Set<String> hashtag, LocalDateTime createdAt, String email, String nickname, String userId, Set<ArticleCommentResponse> articleCommentResponses) {
         return new ArticleWithCommentsResponse(id, title, description, hashtag, createdAt, email, nickname, userId, articleCommentResponses);
     }
 
@@ -34,7 +35,9 @@ public record ArticleWithCommentsResponse(
                 dto.id(),
                 dto.title(),
                 dto.description(),
-                dto.hashtag(),
+                dto.hashtagDtos().stream()
+                        .map(HashtagDto::hashtagName)
+                        .collect(Collectors.toUnmodifiableSet()),
                 dto.createdAt(),
                 dto.userAccountDto().email(),
                 nickname,

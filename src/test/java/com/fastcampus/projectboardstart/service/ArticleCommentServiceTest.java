@@ -2,6 +2,7 @@ package com.fastcampus.projectboardstart.service;
 
 import com.fastcampus.projectboardstart.domain.Article;
 import com.fastcampus.projectboardstart.domain.ArticleComment;
+import com.fastcampus.projectboardstart.domain.Hashtag;
 import com.fastcampus.projectboardstart.domain.UserAccount;
 import com.fastcampus.projectboardstart.dto.ArticleCommentDto;
 import com.fastcampus.projectboardstart.dto.UserAccountDto;
@@ -20,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -170,7 +172,7 @@ class ArticleCommentServiceTest {
 
     private ArticleComment createArticleComment(String description) {
         return ArticleComment.of(
-                Article.of(createUserAccount(), "title", "description", "hashtag"),
+                createArticle(),
                 createUserAccount(),
                 description
         );
@@ -187,12 +189,18 @@ class ArticleCommentServiceTest {
     }
 
     private Article createArticle() {
-        return Article.of(
+        Article article = Article.of(
                 createUserAccount(),
                 "title",
-                "content",
-                "#java"
+                "content"
         );
+        article.addHashtags(Set.of(createHashtag(article)));
+
+        return article;
+    }
+
+    private Hashtag createHashtag(Article article) {
+        return Hashtag.of("java");
     }
 
 }
