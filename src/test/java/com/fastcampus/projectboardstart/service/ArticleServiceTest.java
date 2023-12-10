@@ -196,15 +196,16 @@ class ArticleServiceTest {
     @Test
     void givenNoting_whenCalling_thenReturnsHashtags() {
         // Given
-        List<String> expectedHashtags = List.of("#java", "#spring", "boot");
-        given(articleRepository.findAllDistinctHashtags()).willReturn(expectedHashtags);
+        Article article = createArticle();
+        List<String> expectedHashtags = List.of("java", "spring", "boot");
+        given(hashtagRepository.findAllHashtagNames()).willReturn(expectedHashtags);
 
         // when
         List<String> actualHashtags = sut.getHashtags();
 
         // then
         assertThat(actualHashtags).isEqualTo(expectedHashtags);
-        then(articleRepository).should().findAllDistinctHashtags();
+        then(hashtagRepository).should().findAllHashtagNames();
     }
 
     @DisplayName("게시글이 없으면, 예외를 던진다.")
@@ -353,24 +354,6 @@ class ArticleServiceTest {
         // Then
         assertThat(actual).isEqualTo(expected);
         then(articleRepository).should().count();
-    }
-
-    @DisplayName("해시태그를 조회하면, 유니크 해시태그 리스트를 반환한다")
-    @Test
-    void givenNothing_whenCalling_thenReturnsHashtags() {
-        // Given
-        List<String> expectedHashtags = List.of("#java", "#spring", "#boot");
-        given(articleRepository.findAllDistinctHashtags()).willReturn(expectedHashtags);
-        Article article = createArticle();
-        given(hashtagRepository.findAllHashtagNames()).willReturn(expectedHashtags);
-
-        // When
-        List<String> actualHashtags = sut.getHashtags();
-
-        // Then
-        assertThat(actualHashtags).isEqualTo(expectedHashtags);
-        then(articleRepository).should().findAllDistinctHashtags();
-        then(hashtagRepository).should().findAllHashtagNames();
     }
 
     private UserAccount createUserAccount() {
