@@ -4,7 +4,6 @@ import com.fastcampus.projectboardstart.dto.ArticleCommentDto;
 import com.fastcampus.projectboardstart.dto.ArticleWithCommentsDto;
 import com.fastcampus.projectboardstart.dto.HashtagDto;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
