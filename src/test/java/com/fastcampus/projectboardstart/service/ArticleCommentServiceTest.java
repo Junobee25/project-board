@@ -17,6 +17,7 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -47,7 +48,7 @@ class ArticleCommentServiceTest {
     void givenArticleId_whenSearchingArticleComments_thenReturnsArticleComments() {
         // given
         Long articleId = 1L;
-        ArticleComment expected = createArticleComment("description");
+        ArticleComment expected = createArticleComment(articleId,"description");
         given(articleCommentRepository.findByArticle_Id(articleId)).willReturn(List.of(expected));
 
         // when
@@ -100,7 +101,7 @@ class ArticleCommentServiceTest {
         // Given
         String oldContent = "content";
         String updatedContent = "댓글";
-        ArticleComment articleComment = createArticleComment(oldContent);
+        ArticleComment articleComment = createArticleComment(1L,oldContent);
         ArticleCommentDto dto = createArticleCommentDto(updatedContent);
         given(articleCommentRepository.getReferenceById(dto.id())).willReturn(articleComment);
 
@@ -128,6 +129,28 @@ class ArticleCommentServiceTest {
         then(articleCommentRepository).should().getReferenceById(dto.id());
     }
 
+    @DisplayName("부모 댓글 ID와 댓글 정보를 입력하면, 대댓글을 저장한다.")
+    @Test
+    void givenParentCommentIdAndArticleCommentInfo_whenSaving_thenSavesChildComment() {
+        // Given
+        Long parentCommentId = 1L;
+        ArticleComment parent = createArticleComment(parentCommentId, "댓글");
+        ArticleCommentDto child = createArticleCommentDto(parentCommentId, "대댓글");
+        given(articleRepository.getReferenceById(child.articleId())).willReturn(createArticle());
+        given(userAccountRepository.getReferenceById(child.userAccountDto().userId())).willReturn(createUserAccount());
+        given(articleCommentRepository.getReferenceById(child.parentCommentId())).willReturn(parent);
+
+        // When
+        sut.saveArticleComment(child);
+
+        // Then
+        assertThat(child.parentCommentId()).isNotNull();
+        then(articleRepository).should().getReferenceById(child.articleId());
+        then(userAccountRepository).should().getReferenceById(child.userAccountDto().userId());
+        then(articleCommentRepository).should().getReferenceById(child.parentCommentId());
+        then(articleCommentRepository).should(never()).save(any(ArticleComment.class));
+    }
+
     @DisplayName("댓글 ID를 입력하면, 댓글을 삭제한다.")
     @Test
     void givenArticleCommentId_whenDeletingArticleComment_thenDeletesArticleComment() {
@@ -144,10 +167,19 @@ class ArticleCommentServiceTest {
     }
 
     private ArticleCommentDto createArticleCommentDto(String description) {
+        return createArticleCommentDto(null, description);
+    }
+
+    private ArticleCommentDto createArticleCommentDto(Long parentCommentId, String description) {
+        return createArticleCommentDto(1L, parentCommentId, description);
+    }
+
+    private ArticleCommentDto createArticleCommentDto(Long id, Long parentCommentId, String description) {
         return ArticleCommentDto.of(
-                1L,
+                id,
                 1L,
                 createUserAccountDto(),
+                parentCommentId,
                 description,
                 LocalDateTime.now(),
                 "uno",
@@ -170,12 +202,15 @@ class ArticleCommentServiceTest {
         );
     }
 
-    private ArticleComment createArticleComment(String description) {
-        return ArticleComment.of(
+    private ArticleComment createArticleComment(Long id, String description) {
+        ArticleComment articleComment = ArticleComment.of(
                 createArticle(),
                 createUserAccount(),
                 description
         );
+        ReflectionTestUtils.setField(articleComment, "id", id);
+
+        return articleComment;
     }
 
     private UserAccount createUserAccount() {
@@ -194,6 +229,7 @@ class ArticleCommentServiceTest {
                 "title",
                 "content"
         );
+        ReflectionTestUtils.setField(article, "id", 1L);
         article.addHashtags(Set.of(createHashtag(article)));
 
         return article;

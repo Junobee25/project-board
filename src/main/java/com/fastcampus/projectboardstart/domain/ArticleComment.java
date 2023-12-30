@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @ToString(callSuper = true)
@@ -33,20 +33,35 @@ public class ArticleComment extends AuditingFields {
     private UserAccount userAccount;
 
     @Setter
+    @Column(updatable = false)
+    private Long parentCommentId;
+
+    @ToString.Exclude
+    @OrderBy("createdAt ASC")
+    @OneToMany(mappedBy = "parentCommentId", cascade = CascadeType.ALL)
+    private Set<ArticleComment> childComments = new LinkedHashSet<>();
+
+    @Setter
     @Column(nullable = false, length = 500)
     private String description; // 본문
 
     protected ArticleComment() {
     }
 
-    private ArticleComment(Article article, UserAccount userAccount, String description) {
+    private ArticleComment(Article article, UserAccount userAccount, Long parentCommentId, String description) {
         this.userAccount = userAccount;
         this.article = article;
+        this.parentCommentId = parentCommentId;
         this.description = description;
     }
 
-    public static ArticleComment of(Article article, UserAccount userAccount, String description) {
-        return new ArticleComment(article, userAccount, description);
+    public static ArticleComment of(Article article, UserAccount userAccount,String description) {
+        return new ArticleComment(article, userAccount,null, description);
+    }
+
+    public void addChildComment(ArticleComment child) {
+        child.setParentCommentId(this.getId());
+        this.getChildComments().add(child);
     }
 
     @Override
