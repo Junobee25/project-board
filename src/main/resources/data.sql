@@ -430,10 +430,10 @@ insert into article_comment (article_id, user_id, parent_comment_id, description
 insert into article_comment (article_id, user_id, parent_comment_id, description, created_at, created_by, modified_at, modified_by) values (79, 'uno', null, 'Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti.', '2023-05-20 21:24:53', 'Darryl', '2023-04-20 04:33:01', 'Ricoriki');
 insert into article_comment (article_id, user_id, parent_comment_id, description, created_at, created_by, modified_at, modified_by) values (12, 'uno', null, 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam.', '2023-05-10 13:47:14', 'Salvador', '2023-04-25 23:09:04', 'Cristina');
 
-insert into article_comment (article_id, user_id, parent_comment_id, description, created_at, created_by, modified_at, modified_by) values (49, 'uno', 305, '퍼가요~', '2023-12-02 22:40:04', 'Uno', '2024-01-27 15:38:09', 'Uno');
-insert into article_comment (article_id, user_id, parent_comment_id, description, created_at, created_by, modified_at, modified_by) values (49, 'uno2', 305, '퍼가요1~', '2023-12-03 22:40:04', 'Uno', '2024-01-27 15:38:09', 'Uno');
-insert into article_comment (article_id, user_id, parent_comment_id, description, created_at, created_by, modified_at, modified_by) values (49, 'uno', 305, '퍼가요2~', '2023-12-04 22:40:04', 'Uno', '2024-01-27 15:38:09', 'Uno');
-insert into article_comment (article_id, user_id, parent_comment_id, description, created_at, created_by, modified_at, modified_by) values (49, 'uno', 305, '퍼가요3~', '2023-12-05 22:40:04', 'Uno', '2024-01-27 15:38:09', 'Uno');
+insert into article_comment (article_id, user_id, parent_comment_id, description, created_at, created_by, modified_at, modified_by) values (49, 'uno', 301, '퍼가요~', '2023-12-02 22:40:04', 'Uno', '2024-01-27 15:38:09', 'Uno');
+insert into article_comment (article_id, user_id, parent_comment_id, description, created_at, created_by, modified_at, modified_by) values (49, 'uno2', 301, '퍼가요1~', '2023-12-03 22:40:04', 'Uno', '2024-01-27 15:38:09', 'Uno');
+insert into article_comment (article_id, user_id, parent_comment_id, description, created_at, created_by, modified_at, modified_by) values (49, 'uno', 301, '퍼가요2~', '2023-12-04 22:40:04', 'Uno', '2024-01-27 15:38:09', 'Uno');
+insert into article_comment (article_id, user_id, parent_comment_id, description, created_at, created_by, modified_at, modified_by) values (49, 'uno', 301, '퍼가요3~', '2023-12-05 22:40:04', 'Uno', '2024-01-27 15:38:09', 'Uno');
 
 
 insert into hashtag (hashtag_name, created_at, created_by, modified_at, modified_by) values ('Green', now(), 'uno', now(), 'uno');
