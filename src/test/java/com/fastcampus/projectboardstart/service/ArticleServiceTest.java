@@ -343,7 +343,7 @@ class ArticleServiceTest {
         then(hashtagService).should(times(2)).deleteHashtagWithoutArticles(any());
     }
 
-    @DisplayName("게시글 수를 조회하면, 게시글 수를 반환한다")
+    @DisplayName("게시글 수를 조회하면, 게시글 수를 반환한다.")
     @Test
     void givenNothing_whenCountingArticles_thenReturnsArticleCount() {
         // Given
