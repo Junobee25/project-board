@@ -1,7 +1,7 @@
 package com.fastcampus.projectboardstart.config;
 
-import com.fastcampus.projectboardstart.domain.UserAccount;
-import com.fastcampus.projectboardstart.repository.UserAccountRepository;
+import com.fastcampus.projectboardstart.dto.UserAccountDto;
+import com.fastcampus.projectboardstart.service.UserAccountService;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.event.annotation.BeforeTestMethod;
@@ -15,16 +15,23 @@ import static org.mockito.BDDMockito.given;
 public class TestSecurityConfig {
     // Mocking 이란
     @MockBean
-    private UserAccountRepository userAccountRepository;
+    private UserAccountService userAccountService;
 
     @BeforeTestMethod
     public void securitySetup() {
-        given(userAccountRepository.findById(anyString())).willReturn(Optional.of(UserAccount.of(
+        given(userAccountService.searchUser(anyString()))
+                .willReturn(Optional.of(createUserAccountDto()));
+        given(userAccountService.saveUser(anyString(), anyString(), anyString(), anyString(), anyString()))
+                .willReturn(createUserAccountDto());
+    }
+
+    private UserAccountDto createUserAccountDto() {
+        return UserAccountDto.of(
                 "unoTest",
                 "pw",
                 "uno-test@gmail.com",
                 "uno-test",
                 "test memo"
-        )));
+        );
     }
 }
