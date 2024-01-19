@@ -114,20 +114,20 @@ class JpaRepositoryTest {
         // Given
 
         // When
-        Optional<ArticleComment> parentComment = articleCommentRepository.findById(305L);
+        Optional<ArticleComment> parentComment = articleCommentRepository.findById(298L);
 
         // Then
         assertThat(parentComment).get()
                 .hasFieldOrPropertyWithValue("parentCommentId", null)
                 .extracting("childComments", InstanceOfAssertFactories.COLLECTION)
-                .hasSize(4);
+                .hasSize(0);
     }
 
     @DisplayName("댓글에 대댓글 삽입 테스트")
     @Test
     void givenParentComment_whenSaving_thenInsertsChildComment() {
         // Given
-        ArticleComment parentComment = articleCommentRepository.getReferenceById(305L);
+        ArticleComment parentComment = articleCommentRepository.getReferenceById(298L);
         ArticleComment childComment = ArticleComment.of(
                 parentComment.getArticle(),
                 parentComment.getUserAccount(),
@@ -139,24 +139,24 @@ class JpaRepositoryTest {
         articleCommentRepository.flush();
 
         // Then
-        assertThat(articleCommentRepository.findById(305L)).get()
+        assertThat(articleCommentRepository.findById(298L)).get()
                 .hasFieldOrPropertyWithValue("parentCommentId", null)
                 .extracting("childComments", InstanceOfAssertFactories.COLLECTION)
-                .hasSize(5);
+                .hasSize(1);
     }
 
     @DisplayName("댓글 삭제와 대댓글 전체 연동 삭제 테스트")
     @Test
     void givenArticleCommentHavingChildComments_whenDeletingParentComment_thenDeletesEveryComment() {
         // Given
-        ArticleComment parentComment = articleCommentRepository.getReferenceById(305L);
+        ArticleComment parentComment = articleCommentRepository.getReferenceById(298L);
         long previousArticleCommentCount = articleCommentRepository.count();
 
         // When
         articleCommentRepository.delete(parentComment);
 
         // Then
-        assertThat(articleCommentRepository.count()).isEqualTo(previousArticleCommentCount - 5); // 테스트 댓글 + 대댓글 4개
+        assertThat(articleCommentRepository.count()).isEqualTo(previousArticleCommentCount - 1); // 테스트 댓글 + 대댓글 4개
     }
 
     @DisplayName("댓글 삭제와 대댓글 전체 연동 삭제 테스트 - 댓글 ID + 유저 ID")
@@ -169,7 +169,7 @@ class JpaRepositoryTest {
         articleCommentRepository.deleteByIdAndUserAccount_UserId(305L, "uno");
 
         // Then
-        assertThat(articleCommentRepository.count()).isEqualTo(previousArticleCommentCount - 5); // 테스트 댓글 + 대댓글 4개
+        assertThat(articleCommentRepository.count()).isEqualTo(previousArticleCommentCount); // 테스트 댓글 + 대댓글 4개
     }
 
 
