@@ -51,3 +51,8 @@ spring:
     url: ${JAWSDB_URL}
   jpa.hibernate.ddl-auto: create
   sql.init.mode: always
+
+---
+spring:
+  config.activate.on-profile: test
+  datasource.url: jdbc:h2:mem:testdb
