@@ -1,5 +1,5 @@
 # 게시판 서비스
-
+[![GitKraken shield](https://img.shields.io/badge/GitKraken-Legendary%20Git%20Tools-teal?style=plastic&logo=gitkraken)](https://gitkraken.link/Junobee25)  
 가장 기본적이고 보편적인 게시판 기능을 둘러볼 수 있는 서비스입니다. 2023년 12월 기준 스프링 부트와 관련 기술들, 자바 17 기능들, 개발 도구들을 경험할 수 있도록 만들어졌습니다.
 
 ## 개발 환경
