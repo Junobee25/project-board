@@ -35,8 +35,7 @@ Spring Boot
 ## 데모 페이지
 
 https://project-board-junoh-de725ed1cde9.herokuapp.com/
-
-## 질문, 건의
+(배포 서비스 변경 예정)
 
 프로젝트에 관해 궁금하신 점이나 건의 사항이 있으시다면 아래 항목을 이용해 주세요.
 
